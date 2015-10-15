@@ -18,4 +18,13 @@ describe DockingStation do
     expect { subject.dock_bike(Bike.new) }.to raise_error "Docking Station full"
   end
 
+  
+  it 'can not release broken bike' do
+    s = DockingStation.new
+    b = Bike.new
+    b.report_broken
+    s.dock_bike b
+    expect {s.release_bike}.to raise_error 'can not release broken bikes'
+  end
+
 end
