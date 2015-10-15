@@ -4,7 +4,7 @@ describe DockingStation do
 
   it { is_expected.to respond_to :release_bike }
 
-  it { expect(Bike.new.working?).to eq @bike }
+  it { expect(double(:bike).working?).to eq @bike }
 
   it { is_expected.to respond_to(:dock_bike).with(1).argument }
 
@@ -14,14 +14,14 @@ describe DockingStation do
 
   it "return bike to docking station" do
 
-    subject.capacity.times { subject.dock_bike(Bike.new) }
-    expect { subject.dock_bike(Bike.new) }.to raise_error "Docking Station full"
+    subject.capacity.times { subject.dock_bike(double(:bike)) }
+    expect { subject.dock_bike(double(:bike)) }.to raise_error "Docking Station full"
   end
 
-  
+
   it 'can not release broken bike' do
     s = DockingStation.new
-    b = Bike.new
+    b = double(:bike)
     b.report_broken
     s.dock_bike b
     expect {s.release_bike}.to raise_error 'can not release broken bikes'
