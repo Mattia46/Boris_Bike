@@ -2,7 +2,7 @@ require 'dockingstation.rb'
 
 describe DockingStation do
 
-  let(:bike){ double(:bike, {:working? => true})}
+  let(:bike){ double(:bike, {:working? => true, broken?: false})}
   let(:broken_bike){ double(:bike, {working?: @bike, report_broken: @broken, broken?: true})}
 
   it "should return bike" do
@@ -32,6 +32,29 @@ describe DockingStation do
     # bike.report_broken
     station.dock_bike broken_bike
     expect {station.release_bike}.to raise_error 'can not release broken bikes'
+  end
+
+  it 'can release working bike' do
+    # allow(bike).to receive(:report_broken).and_return(@broken)
+    # allow(bike).to receive(:broken?).and_return(true)
+
+    station = DockingStation.new
+    # bike.report_broken
+    station.dock_bike bike
+    expect(station.release_bike).to eq(bike)
+  end
+
+
+
+  it 'has been collected to the garage?' do
+    b = Bike.new
+    b.report_broken
+    station = DockingStation.new
+    station.dock_bike b
+    station.collect
+
+    expect(station.bikes).to be_empty
+
   end
 
 end

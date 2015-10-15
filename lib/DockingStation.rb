@@ -2,11 +2,23 @@ class DockingStation
 
 
   DEFAULT_CAPACITY = 20
-  attr_reader :bikes, :capacity
+  attr_reader :bikes, :capacity, :garage
+
 
   def initialize
     @bikes = []
     @capacity = DEFAULT_CAPACITY
+    @garage = []
+
+  end
+
+  def collect
+    @bikes.each do |x|
+        if x.broken?
+          @garage << x
+          @bikes.delete(x)
+        end
+    end
   end
 
   def release_bike
@@ -19,6 +31,8 @@ class DockingStation
     fail "Docking Station full" if full?
     @bikes << bike
   end
+
+
 
 end
 

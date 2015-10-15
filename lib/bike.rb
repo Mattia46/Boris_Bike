@@ -8,6 +8,11 @@ class Bike
     @broken
   end
 
+  # def fixed?
+  #
+  # end
+  
+
   def working?
     true
   end
